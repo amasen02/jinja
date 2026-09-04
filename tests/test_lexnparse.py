@@ -180,6 +180,10 @@ class TestLexer:
                 assert lineno == 5
                 break
 
+    def test_unrecognized_escape_sequence(self, env):
+        tmpl = env.from_string(r'{{ "\d \w \s" }}')
+        assert tmpl.render() == r"\d \w \s"
+
 
 class TestParser:
     def test_php_syntax(self, env):

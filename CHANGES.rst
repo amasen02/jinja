@@ -13,6 +13,9 @@ Unreleased
 -   Use modern packaging metadata with ``pyproject.toml`` instead of ``setup.cfg``.
     :pr:`1793`
 -   Use ``flit_core`` instead of ``setuptools`` as build backend.
+-   Ignore ``DeprecationWarning`` and ``SyntaxWarning`` when unescaping string
+    literals in the lexer so unrecognized escape sequences do not raise syntax
+    errors under ``-Werror``. :issue:`1156`
 
 
 Version 3.1.6

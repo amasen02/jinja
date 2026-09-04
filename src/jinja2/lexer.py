@@ -6,6 +6,7 @@ template code and python code in expressions.
 
 import re
 import typing as t
+import warnings
 from ast import literal_eval
 from collections import deque
 from sys import intern
@@ -648,11 +649,14 @@ class Lexer:
             elif token == TOKEN_STRING:
                 # try to unescape string
                 try:
-                    value = (
-                        self._normalize_newlines(value_str[1:-1])
-                        .encode("ascii", "backslashreplace")
-                        .decode("unicode-escape")
-                    )
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore", DeprecationWarning)
+                        warnings.simplefilter("ignore", SyntaxWarning)
+                        value = (
+                            self._normalize_newlines(value_str[1:-1])
+                            .encode("ascii", "backslashreplace")
+                            .decode("unicode-escape")
+                        )
                 except Exception as e:
                     msg = str(e).split(":")[-1].strip()
                     raise TemplateSyntaxError(msg, lineno, name, filename) from e
